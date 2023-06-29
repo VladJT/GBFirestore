@@ -9,6 +9,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import jt.projects.gbfirestore.databinding.ActivityMainBinding
+import jt.projects.gbfirestore.utils.ADD_NOTE_DIALOG_TAG
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,18 +39,27 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = mainAdapter
         }
+
+        binding.floatingActionButton.setOnClickListener {
+            showAddNoteDialog()
+        }
     }
 
     private fun observeViewModelData() {
-        lifecycleScope.launch {
-            this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel
-                    .resultRecycler
-                    .collect {
-                        mainAdapter.setData(it)
-                    }
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.resultRecycler.collect {
+                mainAdapter.setData(it)
             }
         }
+//        lifecycleScope.launch {
+//            this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel
+//                    .resultRecycler
+//                    .collect {
+//                        mainAdapter.setData(it)
+//                    }
+//            }
+//        }
     }
 
     private fun observeLoadingVisible() {
@@ -59,5 +71,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showAddNoteDialog() {
+        NoteDialogFragment.newInstance(null).show(
+            supportFragmentManager,
+            ADD_NOTE_DIALOG_TAG
+        )
     }
 }

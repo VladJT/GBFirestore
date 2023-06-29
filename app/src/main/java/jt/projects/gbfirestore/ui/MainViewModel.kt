@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val interactor: NotesInteractor) : ViewModel() {
@@ -43,6 +46,24 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
                     _isLoading.tryEmit(false)
                 }.collect()
         }
+    }
+
+    fun addNote(date: LocalDate, time: LocalTime, pressure1: Int, pressure2: Int, pulse: Int) {
+        launchOrError(
+            action = {
+                interactor.saveNote(
+                    Note(
+                        dateTime = LocalDateTime.of(date, time),
+                        pressure1 = pressure1,
+                        pressure2 = pressure2,
+                        pulse = pulse
+                    )
+                )
+                loadData()
+            },
+            error = {
+                Log.d(LOG_TAG, it.toString())
+            })
     }
 
     private fun launchOrError(

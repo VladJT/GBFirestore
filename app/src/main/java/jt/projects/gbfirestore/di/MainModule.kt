@@ -7,6 +7,7 @@ import jt.projects.gbfirestore.interactors.NotesInteractor
 import jt.projects.gbfirestore.repository.INotesRepo
 import jt.projects.gbfirestore.repository.NotesFakeRepo
 import jt.projects.gbfirestore.ui.MainActivity
+import jt.projects.gbfirestore.ui.NoteDialogFragment
 import javax.inject.Singleton
 
 
@@ -34,4 +35,10 @@ abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun contributeMainActivity(): MainActivity
 
+}
+
+@Module
+abstract class FragmentModule {
+    @ContributesAndroidInjector
+    abstract fun bindNoteDialogFragment(): NoteDialogFragment
 }

@@ -1,5 +1,10 @@
 package jt.projects.gbfirestore.utils
 
+/**
+ * ADD NOTE DIALOG
+ */
+const val ADD_NOTE_DIALOG_TAG = "ADD_NOTE_DIALOG_FRAGMENT"
+const val ADD_NOTE_DIALOG_DATA_KEY = "DIALOG_DATA_KEY"
 
 /**
  * LOGS

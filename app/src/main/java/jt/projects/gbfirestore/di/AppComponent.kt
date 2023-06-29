@@ -11,7 +11,7 @@ import javax.inject.Singleton
 // если в компоненте есть хотя бы 1 Singleton, то и компонент обязаны объявить как Singleton
 @Singleton
 @Component(
-    modules = [AppModule::class, MainModule::class, ActivityModule::class, AndroidSupportInjectionModule::class]
+    modules = [AppModule::class, MainModule::class, FragmentModule::class, ActivityModule::class, AndroidSupportInjectionModule::class]
 )
 interface AppComponent {
     // Этот билдер мы вызовем из класса App
