@@ -5,7 +5,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 /**
@@ -56,6 +58,14 @@ fun Fragment.showSnackbarWithAction(
  */
 fun LocalDateTime.toHourMinString(): String {
     return "${this.hour.toString().padStart(2,'0')}:${this.minute.toString().padStart(2,'0')}"
+}
+
+fun LocalDate.toStdFormatString(): String {
+    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+}
+
+fun String.toStdLocalDate(): LocalDate {
+    return LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 }
 
 

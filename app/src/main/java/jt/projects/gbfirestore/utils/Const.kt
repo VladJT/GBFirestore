@@ -5,6 +5,7 @@ package jt.projects.gbfirestore.utils
  */
 const val ADD_NOTE_DIALOG_TAG = "ADD_NOTE_DIALOG_FRAGMENT"
 const val ADD_NOTE_DIALOG_DATA_KEY = "DIALOG_DATA_KEY"
+const val DATE_PICKER_TAG = "DATE_PICKER_TAG"
 
 /**
  * LOGS

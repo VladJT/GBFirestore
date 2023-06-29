@@ -1,9 +1,12 @@
 package jt.projects.gbfirestore.repository
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
 import jt.projects.gbfirestore.model.Note
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -32,14 +35,14 @@ class NotesFakeRepo : INotesRepo {
         )
     )
 
+    val liveData : MutableLiveData<List<Note>> = MutableLiveData(data)
+
     override fun getAllNotes(): Flow<List<Note>> {
-        return flow {
-            delay(500)
-            emit(data)
-        }
+        return liveData.asFlow()
     }
 
     override fun saveNote(note: Note) {
         data.add(note)
+        liveData.postValue(data)
     }
 }

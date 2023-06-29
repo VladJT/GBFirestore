@@ -7,6 +7,7 @@ import jt.projects.gbfirestore.interactors.NotesInteractor
 import jt.projects.gbfirestore.repository.INotesRepo
 import jt.projects.gbfirestore.repository.NotesFakeRepo
 import jt.projects.gbfirestore.ui.MainActivity
+import jt.projects.gbfirestore.ui.MainViewModel
 import jt.projects.gbfirestore.ui.NoteDialogFragment
 import javax.inject.Singleton
 
@@ -23,6 +24,9 @@ class MainModule {
     @Singleton
     fun notesInteractor(repo: INotesRepo): NotesInteractor = NotesInteractor(repo)
 
+//    @Provides
+//    @Singleton
+//    fun mainViewModel(interactor: NotesInteractor): MainViewModel = MainViewModel(interactor)
 }
 
 /**

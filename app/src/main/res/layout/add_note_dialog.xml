@@ -8,8 +8,18 @@
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_choose_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="02.03.2023"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_calendar"
+        app:iconPadding="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,10 +28,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="8dp"
-        android:text="Верхнее артериальное давление"
-        android:textSize="14sp"
+        android:text="Верхнее артериальное давление "
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+
+    <TextView
+        android:id="@+id/tv_label_pressure_value_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="120"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_pressure_1"
+        app:layout_constraintStart_toEndOf="@+id/tv_label_pressure_1"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_pressure_1" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider_pressure_1"
@@ -31,18 +52,30 @@
         android:value="120.0"
         android:valueFrom="1.0"
         android:valueTo="200.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_label_pressure_1" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_pressure_value_1" />
 
     <TextView
         android:id="@+id/tv_label_pressure_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="8dp"
-        android:text="Нижнее артериальное давление"
-        android:textSize="14sp"
+        android:text="Нижнее артериальное давление  "
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/slider_pressure_1" />
+
+    <TextView
+        android:id="@+id/tv_label_pressure_value_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="80"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_pressure_2"
+        app:layout_constraintStart_toEndOf="@+id/tv_label_pressure_2"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_pressure_2" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider_pressure_2"
@@ -60,10 +93,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="8dp"
-        android:text="Пульс"
-        android:textSize="14sp"
+        android:text="Пульс  "
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/slider_pressure_2" />
+
+    <ImageView
+        android:id="@+id/iv_heart"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:alpha="0.5"
+        android:src="@drawable/baseline_heart_broken_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_pulse"
+        app:layout_constraintStart_toEndOf="@id/tv_label_pulse"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_pulse" />
+
+    <TextView
+        android:id="@+id/tv_label_pulse_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="70"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_pulse"
+        app:layout_constraintStart_toEndOf="@+id/iv_heart"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_pulse" />
+
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider_pulse"
@@ -76,23 +132,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_label_pulse" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
         android:text="Сохранить"
         app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
-        app:layout_constraintTop_toBottomOf="@+id/slider_pulse" />
+        app:layout_constraintTop_toTopOf="@+id/btn_cancel" />
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="41dp"
         android:text="Отмена"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_ok" />
+        app:layout_constraintTop_toBottomOf="@+id/slider_pulse" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

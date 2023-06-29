@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import jt.projects.gbfirestore.databinding.ActivityMainBinding
 import jt.projects.gbfirestore.utils.ADD_NOTE_DIALOG_TAG
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,27 +41,27 @@ class MainActivity : AppCompatActivity() {
         binding.floatingActionButton.setOnClickListener {
             showAddNoteDialog()
         }
+
+        binding.btnTest.setOnClickListener {
+            mainAdapter.setData(viewModel.resultRecycler.value)
+        }
     }
 
     private fun observeViewModelData() {
-        CoroutineScope(Dispatchers.Main).launch {
-            viewModel.resultRecycler.collect {
-                mainAdapter.setData(it)
-            }
+        viewModel.liveDataForViewToObserve.observe(this) {
+            mainAdapter.setData(it)
         }
-//        lifecycleScope.launch {
+//        this@MainActivity.lifecycleScope.launch {
 //            this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel
-//                    .resultRecycler
-//                    .collect {
-//                        mainAdapter.setData(it)
-//                    }
+//                viewModel.resultRecycler.collect {
+//                    mainAdapter.setData(it)
+//                }
 //            }
 //        }
     }
 
     private fun observeLoadingVisible() {
-        this.lifecycleScope.launch {
+        this@MainActivity.lifecycleScope.launch {
             this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoading.collect {
                     binding.loadingFrameLayout.root.isVisible = it
@@ -74,9 +72,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAddNoteDialog() {
-        NoteDialogFragment.newInstance(null).show(
-            supportFragmentManager,
-            ADD_NOTE_DIALOG_TAG
-        )
+        NoteDialogFragment.newInstance(note = null)
+            .show(
+                supportFragmentManager,
+                ADD_NOTE_DIALOG_TAG
+            )
     }
 }
