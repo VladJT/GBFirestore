@@ -3,8 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="2dp">
-
+    android:backgroundTint="@color/gray">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -13,7 +12,8 @@
         android:background="@drawable/gradient_bg"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingVertical="4dp">
+        android:paddingVertical="4dp"
+        android:layout_marginBottom="1dp">
 
 
         <TextView
@@ -83,5 +83,5 @@
             android:layout_weight="1" />
 
     </LinearLayout>
-    >
+
 </androidx.cardview.widget.CardView>

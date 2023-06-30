@@ -2,24 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_add_note"
+    android:padding="20dp">
 
     <TimePicker
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_choose_date" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_choose_date"
+        style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="02.03.2023"
         android:textSize="16sp"
         app:icon="@drawable/ic_calendar"
         app:iconPadding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,23 +137,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_label_pulse" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_ok"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:text="Сохранить"
+        app:icon="@android:drawable/ic_menu_save"
+        app:iconPadding="5dp"
         app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
         app:layout_constraintTop_toTopOf="@+id/btn_cancel" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_cancel"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:layout_marginTop="41dp"
         android:text="Отмена"
+        app:icon="@android:drawable/ic_menu_close_clear_cancel"
+        app:iconPadding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/slider_pulse" />

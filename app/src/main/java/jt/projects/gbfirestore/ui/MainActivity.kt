@@ -41,10 +41,6 @@ class MainActivity : AppCompatActivity() {
         binding.floatingActionButton.setOnClickListener {
             showAddNoteDialog()
         }
-
-        binding.btnTest.setOnClickListener {
-            mainAdapter.setData(viewModel.resultRecycler.value)
-        }
     }
 
     private fun observeViewModelData() {

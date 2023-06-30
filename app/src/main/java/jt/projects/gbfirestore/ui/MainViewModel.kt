@@ -47,6 +47,7 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
                 .onStart { _isLoading.tryEmit(true) }
                 .onEach {
                     _isLoading.tryEmit(true)
+
                     delay(500)
                     liveData.postValue(it)
                     _resultRecycler.tryEmit(it)
