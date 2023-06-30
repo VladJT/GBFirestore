@@ -31,9 +31,6 @@ class NotesInteractor(private val repo: INotesRepo) {
             }
             notes
         }.map { notes ->
-//            notes.sortedBy {
-//                it.dateTime
-//            }
             notes.sortWith(
                 compareBy(
                     { it.dateTime.toLocalDate() },
@@ -45,13 +42,4 @@ class NotesInteractor(private val repo: INotesRepo) {
 
     fun saveNote(note: Note) = repo.saveNote(note)
 
-//    internal class CustomComparator : Comparator<Note> {
-//        override fun compare(x: Note, y: Note): Int {
-//            return when {
-//                (x.dateTime == y.dateTime && x.isHeader==false && y.isHeader==false) -> 0
-//                (x.dateTime == y.dateTime && x.isHeader==false && y.isHeader==false) -> -1
-//                else -> 1
-//            }
-//        }
-//    }
 }

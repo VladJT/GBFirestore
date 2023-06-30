@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import jt.projects.gbfirestore.databinding.ActivityMainBinding
 import jt.projects.gbfirestore.utils.ADD_NOTE_DIALOG_TAG
+import jt.projects.gbfirestore.utils.showSnackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         initUi()
         observeViewModelData()
         observeLoadingVisible()
+        observeErrors()
+
     }
 
     private fun initUi() {
@@ -64,6 +67,12 @@ class MainActivity : AppCompatActivity() {
                     binding.progressCircular.isVisible = it
                 }
             }
+        }
+    }
+
+    private fun observeErrors() {
+        viewModel.someErrorLiveData.observe(this) {
+            showSnackbar(it)
         }
     }
 

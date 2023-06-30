@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -70,5 +71,8 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.44'
     implementation 'com.google.dagger:dagger-android-support:2.44'
     kapt 'com.google.dagger:dagger-android-processor:2.44'
+
+    // firestore database
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.6.1'
 
 }

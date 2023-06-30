@@ -22,6 +22,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val interactor: NotesInteractor) : ViewModel() {
+    companion object{
+        const val FAKE_DELAY = 500L
+    }
 
     private var job: Job? = null
 
@@ -30,6 +33,10 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading get() = _isLoading.asStateFlow()
+
+    private val _someError: MutableLiveData<String> = MutableLiveData()
+    val someErrorLiveData: LiveData<String>
+        get() = _someError
 
     private val liveData: MutableLiveData<List<Note>> = MutableLiveData()
     val liveDataForViewToObserve: LiveData<List<Note>>
@@ -48,7 +55,7 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
                 .onEach {
                     _isLoading.tryEmit(true)
 
-                    delay(500)
+                    delay(FAKE_DELAY)
                     liveData.postValue(it)
                     _resultRecycler.tryEmit(it)
                     _isLoading.tryEmit(false)
@@ -62,7 +69,7 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
                 interactor.saveNote(note)
             },
             error = {
-
+                _someError.postValue("Ошибка при сохранении данных: ${it.message}")
             })
     }
 
