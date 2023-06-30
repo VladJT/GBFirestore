@@ -9,7 +9,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_bg"
+        android:background="@drawable/gradient_bg_green"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingVertical="4dp"

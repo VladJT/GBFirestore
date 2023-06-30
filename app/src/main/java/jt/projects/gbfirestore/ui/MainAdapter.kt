@@ -1,6 +1,7 @@
 package jt.projects.gbfirestore.ui
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbfirestore.model.Note
 import jt.projects.gbfirestore.viewholders.NoteTitleViewHolder
@@ -45,4 +46,15 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int = data.size
+}
+
+class NewsDiffCallback : DiffUtil.ItemCallback<Note>() {
+    override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
+        return oldItem == newItem
+    }
+
 }
