@@ -40,8 +40,8 @@ class NotesFirestoreDbRepo : INotesRepo {
         db.collection(FIRESTORE_DB_NAME)
             .add(note.toFirestoreEntity())
             .addOnSuccessListener {
-                data.add(note)
-                liveData.postValue(data)
+//                data.add(note)
+//                liveData.postValue(data)
             }
             .addOnFailureListener { e ->
                 Log.d(LOG_TAG, e.message.toString())

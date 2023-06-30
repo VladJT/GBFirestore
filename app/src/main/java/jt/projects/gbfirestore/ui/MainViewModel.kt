@@ -43,11 +43,11 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
         get() = liveData
 
     init {
-        loadData()
+
     }
 
     // загрузка сразу всех данных из удаленного или локального источника
-    private fun loadData() {
+    fun loadData() {
         job?.cancel()
         job = viewModelScope.launch {
             interactor.getAllNotes()

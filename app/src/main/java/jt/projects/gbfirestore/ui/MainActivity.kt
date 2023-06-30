@@ -28,11 +28,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         AndroidInjection.inject(this)
 
+        viewModel.loadData()
         initUi()
         observeViewModelData()
         observeLoadingVisible()
         observeErrors()
-
     }
 
     private fun initUi() {
