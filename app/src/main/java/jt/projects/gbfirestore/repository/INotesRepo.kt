@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface INotesRepo {
     fun getAllNotes(): Flow<List<Note>>
     fun saveNote(note: Note)
+    fun deleteNoteById(docId: String)
 }

@@ -20,7 +20,12 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModel: MainViewModel
 
-    private val mainAdapter by lazy { MainAdapter() }
+    private val mainAdapter by lazy {
+        MainAdapter(
+            onEditNoteClicked = null,
+            onDeleteNoteClicked = viewModel::onDeleteNoteClicked
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

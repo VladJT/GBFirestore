@@ -22,8 +22,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val interactor: NotesInteractor) : ViewModel() {
-    companion object{
-        const val FAKE_DELAY = 500L
+    companion object {
+        const val FAKE_DELAY = 0L
     }
 
     private var job: Job? = null
@@ -72,6 +72,17 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
                 _someError.postValue("Ошибка при сохранении данных: ${it.message}")
             })
     }
+
+    fun onDeleteNoteClicked(note: Note) {
+        launchOrError(
+            action = {
+                interactor.deleteNote(note)
+            },
+            error = {
+                _someError.postValue("Ошибка при сохранении данных: ${it.message}")
+            })
+    }
+
 
     private fun launchOrError(
         dispatcher: CoroutineDispatcher = Dispatchers.IO,

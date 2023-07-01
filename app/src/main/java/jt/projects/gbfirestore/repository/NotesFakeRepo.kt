@@ -45,4 +45,8 @@ class NotesFakeRepo : INotesRepo {
         data.add(note)
         liveData.postValue(data)
     }
+
+    override fun deleteNoteById(docId: String) {
+        // TODO
+    }
 }

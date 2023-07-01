@@ -42,4 +42,6 @@ class NotesInteractor(private val repo: INotesRepo) {
 
     fun saveNote(note: Note) = repo.saveNote(note)
 
+    fun deleteNote(note: Note) = repo.deleteNoteById(note.id)
+
 }
