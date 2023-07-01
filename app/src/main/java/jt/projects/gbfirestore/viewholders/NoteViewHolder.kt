@@ -1,12 +1,11 @@
 package jt.projects.gbfirestore.viewholders
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbfirestore.databinding.ItemNoteBinding
 import jt.projects.gbfirestore.model.Note
-import jt.projects.gbfirestore.ui.ItemTouchHelperViewHolder
+import jt.projects.gbfirestore.ui.adapters.ItemTouchHelperViewHolder
 import jt.projects.gbfirestore.utils.toHourMinString
 
 class NoteViewHolder private constructor(
@@ -20,8 +19,7 @@ class NoteViewHolder private constructor(
 
     fun bind(
         data: Note,
-        onEditNoteClicked: ((Note) -> Unit)?,
-        onDeleteNoteClicked: ((Note) -> Unit)?
+        onEditNoteClicked: ((Note) -> Unit)?
     ) {
         if (layoutPosition != RecyclerView.NO_POSITION) {
             with(binding) {
@@ -32,17 +30,17 @@ class NoteViewHolder private constructor(
                 tvTime.text = data.dateTime.toHourMinString()
             }
 
-            binding.root.setOnClickListener {
-                onDeleteNoteClicked?.invoke(data)
-            }
+//            binding.root.setOnClickListener {
+//                onDeleteNoteClicked?.invoke(data)
+//            }
         }
     }
 
     override fun onItemSelected() {
-        itemView.setBackgroundColor(Color.LTGRAY)
+
     }
 
     override fun onItemClear() {
-        itemView.setBackgroundColor(0)
+
     }
 }

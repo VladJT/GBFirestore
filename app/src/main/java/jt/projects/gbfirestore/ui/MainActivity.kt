@@ -6,9 +6,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import jt.projects.gbfirestore.databinding.ActivityMainBinding
+import jt.projects.gbfirestore.ui.adapters.ItemTouchHelperCallback
+import jt.projects.gbfirestore.ui.adapters.MainAdapter
 import jt.projects.gbfirestore.utils.ADD_NOTE_DIALOG_TAG
 import jt.projects.gbfirestore.utils.showSnackbar
 import kotlinx.coroutines.launch
@@ -20,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModel: MainViewModel
 
+
+    lateinit var itemTouchHelper: ItemTouchHelper//  для свайпов и т.п.
     private val mainAdapter by lazy {
         MainAdapter(
             onEditNoteClicked = null,
@@ -45,6 +50,9 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = mainAdapter
         }
+
+        itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(mainAdapter))
+        itemTouchHelper.attachToRecyclerView(binding.rvNotes)
 
         binding.floatingActionButton.setOnClickListener {
             showAddNoteDialog()
