@@ -8,8 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.AndroidInjection
 import jt.projects.gbfirestore.databinding.ActivityMainBinding
+import jt.projects.gbfirestore.model.Note
 import jt.projects.gbfirestore.ui.adapters.ItemTouchHelperCallback
 import jt.projects.gbfirestore.ui.adapters.MainAdapter
 import jt.projects.gbfirestore.utils.ADD_NOTE_DIALOG_TAG
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var itemTouchHelper: ItemTouchHelper//  для свайпов и т.п.
     private val mainAdapter by lazy {
         MainAdapter(
-            onEditNoteClicked = null,
+            onEditNoteClicked = viewModel::onEditNoteClicked,
             onDeleteNoteClicked = viewModel::onDeleteNoteClicked
         )
     }
@@ -38,11 +40,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         AndroidInjection.inject(this)
 
+        //showGreetings()
+
         viewModel.loadData()
         initUi()
         observeViewModelData()
         observeLoadingVisible()
         observeErrors()
+        observeEditNote()
+    }
+
+    private fun showGreetings() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Важно!")
+            .setMessage(
+                "Данные хранятся в Cloud Firestore\n\n" +
+                        "Для добавления данных нажмите FloatingActionButton\n\n" +
+                        "Для редактирования данных нажмите на заметку\n\n" +
+                        "Для удаления данных смахните элемент"
+            )
+            .setPositiveButton("ОК") { _, _ ->
+            }
+            .show()
     }
 
     private fun initUi() {
@@ -55,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(binding.rvNotes)
 
         binding.floatingActionButton.setOnClickListener {
-            showAddNoteDialog()
+            showAddNoteDialog(null)
         }
     }
 
@@ -89,8 +108,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAddNoteDialog() {
-        NoteDialogFragment.newInstance(note = null)
+    private fun observeEditNote() {
+        this@MainActivity.lifecycleScope.launch {
+            this@MainActivity.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.noteIdFlow
+                    .collect {
+                        showAddNoteDialog(it)
+                    }
+            }
+        }
+    }
+
+    private fun showAddNoteDialog(note: Note?) {
+        NoteDialogFragment.newInstance(note)
             .show(
                 supportFragmentManager,
                 ADD_NOTE_DIALOG_TAG

@@ -2,6 +2,7 @@ package jt.projects.gbfirestore.ui
 
 import android.content.Context
 import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import jt.projects.gbfirestore.databinding.AddNoteDialogBinding
 import jt.projects.gbfirestore.model.Note
 import jt.projects.gbfirestore.utils.ADD_NOTE_DIALOG_DATA_KEY
 import jt.projects.gbfirestore.utils.DATE_PICKER_TAG
+import jt.projects.gbfirestore.utils.NO_ID
 import jt.projects.gbfirestore.utils.toStdFormatString
 import jt.projects.gbfirestore.utils.toStdLocalDate
 import java.time.Instant
@@ -41,6 +43,8 @@ class NoteDialogFragment : DialogFragment() {
     private var _binding: AddNoteDialogBinding? = null
     private val binding get() = _binding!!
 
+    var currentNote: Note? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
@@ -63,11 +67,33 @@ class NoteDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initSliders()
+
+        setInitalValue()
+
         initDialogButtons()
         initButtonChooseDate()
     }
 
+    private fun setInitalValue() {
+        currentNote = arguments?.getParcelable<Note>(ADD_NOTE_DIALOG_DATA_KEY)
+        if(currentNote == null){
+            currentNote = Note(dateTime = LocalDateTime.now(), pressure1 = 120, pressure2 = 80, pulse = 70)
+        }
+
+        currentNote?.let {
+            binding.sliderPressure1.value = it.pressure1.toFloat()
+            binding.sliderPressure2.value = it.pressure2.toFloat()
+            binding.sliderPulse.value = it.pulse.toFloat()
+            binding.btnChooseDate.text = it.dateTime.toLocalDate().toStdFormatString()
+            binding.tvId.text = it.id
+
+            binding.tvTime.hour = it.dateTime.hour
+            binding.tvTime.minute = it.dateTime.minute
+        }
+    }
+
     private fun initSliders() {
+
         binding.sliderPressure1.addOnChangeListener { _, value, _ ->
             binding.tvLabelPressureValue1.text = value.toInt().toString()
         }
@@ -85,6 +111,7 @@ class NoteDialogFragment : DialogFragment() {
         binding.btnOk.setOnClickListener {
             with(binding) {
                 val newNote = Note(
+                    id = currentNote?.id ?: NO_ID,
                     dateTime = LocalDateTime.of(
                         btnChooseDate.text.toString().toStdLocalDate(),
                         LocalTime.of(tvTime.hour, tvTime.minute)
@@ -104,8 +131,6 @@ class NoteDialogFragment : DialogFragment() {
     }
 
     private fun initButtonChooseDate() {
-        binding.btnChooseDate.text = LocalDate.now().toStdFormatString()
-
         binding.btnChooseDate.setOnClickListener {
             val localDate = binding.btnChooseDate.text.toString().toStdLocalDate()
             val calendar = Calendar.getInstance()

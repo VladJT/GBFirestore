@@ -32,20 +32,28 @@ class NotesFirestoreDbRepo : INotesRepo {
                     when (documentChange.type) {
 
                         DocumentChange.Type.ADDED -> {
-                            currentDocument.data.let { firestoreEntity ->
-                                data.add(firestoreEntity.toNote(currentDocument.id))
-                            }
+                            data.add(currentDocument.data.toNote(currentDocument.id))
                         }
 
                         DocumentChange.Type.REMOVED -> {
-                            currentDocument.data?.let { firestoreEntity ->
-                                val dataToRemove = data.findLast { it.id == currentDocument.id }
-                                data.remove(dataToRemove)
-                            }
+                            val dataToRemove =
+                                data.findLast { note ->
+                                    note.id == currentDocument.id
+                                }
+                            data.remove(dataToRemove)
+                        }
+
+                        DocumentChange.Type.MODIFIED -> {
+                            val dataToRemove =
+                                data.findLast { note ->
+                                    note.id == currentDocument.id
+                                }
+                            data.remove(dataToRemove)
+                            data.add(currentDocument.data.toNote(currentDocument.id))
                         }
 
                         else -> {
-
+                            TODO("IMPOSSIBLE?")
                         }
                     }
                 } // forEachIndexed

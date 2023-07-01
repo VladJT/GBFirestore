@@ -8,12 +8,15 @@ import androidx.lifecycle.viewModelScope
 import jt.projects.gbfirestore.interactors.NotesInteractor
 import jt.projects.gbfirestore.model.Note
 import jt.projects.gbfirestore.utils.LOG_TAG
+import jt.projects.gbfirestore.utils.createMutableSingleEventFlow
+import jt.projects.gbfirestore.utils.launchOrError
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -37,6 +40,9 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
     private val _someError: MutableLiveData<String> = MutableLiveData()
     val someErrorLiveData: LiveData<String>
         get() = _someError
+
+    private val _noteIdFlow = createMutableSingleEventFlow<Note>()
+    val noteIdFlow get() = _noteIdFlow.asSharedFlow()
 
     private val liveData: MutableLiveData<List<Note>> = MutableLiveData()
     val liveDataForViewToObserve: LiveData<List<Note>>
@@ -69,8 +75,12 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
                 interactor.saveNote(note)
             },
             error = {
-                _someError.postValue("Ошибка при сохранении данных: ${it.message}")
+                _someError.postValue("Ошибка при добавлении данных: ${it.message}")
             })
+    }
+
+    fun onEditNoteClicked(note: Note) {
+        _noteIdFlow.tryEmit(note)
     }
 
     fun onDeleteNoteClicked(note: Note) {
@@ -79,26 +89,8 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
                 interactor.deleteNote(note)
             },
             error = {
-                _someError.postValue("Ошибка при сохранении данных: ${it.message}")
+                _someError.postValue("Ошибка при удалении данных: ${it.message}")
             })
-    }
-
-
-    private fun launchOrError(
-        dispatcher: CoroutineDispatcher = Dispatchers.IO,
-        action: suspend () -> Unit,
-        error: (Exception) -> Unit
-    ) {
-        viewModelScope.launch(dispatcher) {
-            try {
-                action.invoke()
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Log.e(LOG_TAG, "$e")
-                error.invoke(e)
-            }
-        }
     }
 
 }

@@ -28,11 +28,11 @@ class NoteViewHolder private constructor(
                 tvPressure2.text = data.pressure2.toString()
                 tvPulse.text = data.pulse.toString()
                 tvTime.text = data.dateTime.toHourMinString()
-            }
 
-//            binding.root.setOnClickListener {
-//                onDeleteNoteClicked?.invoke(data)
-//            }
+                btnEdit.setOnClickListener {
+                    onEditNoteClicked?.invoke(data)
+                }
+            }
         }
     }
 
