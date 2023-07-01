@@ -11,6 +11,7 @@ const val DATE_PICKER_TAG = "DATE_PICKER_TAG"
  * FIRESTORE DATABASE
  */
 const val FIRESTORE_DB_NAME = "NotesDatabase"
+const val NO_ID = ""
 
 /**
  * LOGS

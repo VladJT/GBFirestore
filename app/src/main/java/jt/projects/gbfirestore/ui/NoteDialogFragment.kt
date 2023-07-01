@@ -85,13 +85,13 @@ class NoteDialogFragment : DialogFragment() {
         binding.btnOk.setOnClickListener {
             with(binding) {
                 val newNote = Note(
-                    LocalDateTime.of(
+                    dateTime = LocalDateTime.of(
                         btnChooseDate.text.toString().toStdLocalDate(),
                         LocalTime.of(tvTime.hour, tvTime.minute)
                     ),
-                    sliderPressure1.value.toInt(),
-                    sliderPressure2.value.toInt(),
-                    sliderPulse.value.toInt()
+                    pressure1 = sliderPressure1.value.toInt(),
+                    pressure2 = sliderPressure2.value.toInt(),
+                    pulse = sliderPulse.value.toInt()
                 )
                 viewModel.addNote(newNote)
             }
