@@ -1,7 +1,6 @@
 package jt.projects.gbfirestore.ui.adapters
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbfirestore.model.Note
 import jt.projects.gbfirestore.viewholders.NoteTitleViewHolder
@@ -63,8 +62,8 @@ class MainAdapter(
 
     override fun onItemDismiss(position: Int) {
         if (data[position].isHeader) {
-            // заголовок нельзя удалять
-            this.notifyItemChanged(position)
+            // заголовок нельзя удалять - восстанавливаем после swipe-а обратно
+            notifyItemChanged(position)
         } else {
             // удаляем данные swipe-ом
             onDeleteNoteClicked?.let { it.invoke(data[position]) }

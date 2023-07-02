@@ -2,7 +2,6 @@ package jt.projects.gbfirestore.ui
 
 import android.content.Context
 import android.icu.util.Calendar
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,6 @@ import jt.projects.gbfirestore.utils.NO_ID
 import jt.projects.gbfirestore.utils.toStdFormatString
 import jt.projects.gbfirestore.utils.toStdLocalDate
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
@@ -68,16 +66,17 @@ class NoteDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         initSliders()
 
-        setInitalValue()
+        setInitialValue()
 
         initDialogButtons()
         initButtonChooseDate()
     }
 
-    private fun setInitalValue() {
+    private fun setInitialValue() {
         currentNote = arguments?.getParcelable<Note>(ADD_NOTE_DIALOG_DATA_KEY)
-        if(currentNote == null){
-            currentNote = Note(dateTime = LocalDateTime.now(), pressure1 = 120, pressure2 = 80, pulse = 70)
+        if (currentNote == null) {
+            currentNote =
+                Note(dateTime = LocalDateTime.now(), pressure1 = 120, pressure2 = 80, pulse = 70)
         }
 
         currentNote?.let {

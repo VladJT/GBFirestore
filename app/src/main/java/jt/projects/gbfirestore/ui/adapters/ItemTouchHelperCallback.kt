@@ -110,7 +110,7 @@ class ItemTouchHelperCallback(private val adapter: MainAdapter) :
     }
 
     /**
-     *  чтобы наш ViewHolder корректно обрабатывалвыделение элемента
+     *  чтобы наш ViewHolder корректно обрабатывал выделение элемента
      */
     override fun clearView(
         recyclerView: RecyclerView, viewHolder:

@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         AndroidInjection.inject(this)
 
-        //showGreetings()
+        showGreetings()
 
         viewModel.loadData()
         initUi()
@@ -79,16 +79,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModelData() {
-        viewModel.liveDataForViewToObserve.observe(this) {
-            mainAdapter.setData(it)
+        this@MainActivity.lifecycleScope.launch {
+            this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.resultRecycler.collect {
+                    mainAdapter.setData(it)
+                }
+            }
         }
-//        this@MainActivity.lifecycleScope.launch {
-//            this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.resultRecycler.collect {
-//                    mainAdapter.setData(it)
-//                }
-//            }
-//        }
     }
 
     private fun observeLoadingVisible() {

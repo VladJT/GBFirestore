@@ -23,33 +23,41 @@ class NotesFirestoreDbRepo : INotesRepo {
     private val db = Firebase.firestore.collection(FIRESTORE_DB_NAME)
 
     init {
+        //получаем данные
+        db.get()
+            .addOnFailureListener { e ->
+                Log.d(LOG_TAG, e.message.toString())
+            }
         // подписываемся на изменения
+        observeDbChanges()
+    }
+
+    private fun observeDbChanges() {
         db.addSnapshotListener { value, error ->
             value?.let {
-                it.documentChanges.forEachIndexed { index, documentChange ->
-                    val currentDocument = documentChange.document
+                it.documentChanges.forEach { documentChange ->
+                    val currDocData = documentChange.document.data
+                    val currDocId = documentChange.document.id
 
                     when (documentChange.type) {
 
                         DocumentChange.Type.ADDED -> {
-                            data.add(currentDocument.data.toNote(currentDocument.id))
+                            data.add(currDocData.toNote(currDocId))
                         }
 
                         DocumentChange.Type.REMOVED -> {
-                            val dataToRemove =
-                                data.findLast { note ->
-                                    note.id == currentDocument.id
-                                }
+                            val dataToRemove = data.findLast { note ->
+                                note.id == currDocId
+                            }
                             data.remove(dataToRemove)
                         }
 
                         DocumentChange.Type.MODIFIED -> {
-                            val dataToRemove =
-                                data.findLast { note ->
-                                    note.id == currentDocument.id
-                                }
+                            val dataToRemove = data.findLast { note ->
+                                note.id == currDocId
+                            }
                             data.remove(dataToRemove)
-                            data.add(currentDocument.data.toNote(currentDocument.id))
+                            data.add(currDocData.toNote(currDocId))
                         }
 
                         else -> {
@@ -57,19 +65,12 @@ class NotesFirestoreDbRepo : INotesRepo {
                         }
                     }
                 } // forEachIndexed
-
             }
             liveData.postValue(data)
         }
     }
 
-    override fun getAllNotes(): Flow<List<Note>> {
-        db.get()
-            .addOnFailureListener { e ->
-                Log.d(LOG_TAG, e.message.toString())
-            }
-        return liveData.asFlow()
-    }
+    override fun getAllNotes(): Flow<List<Note>> = liveData.asFlow()
 
     override fun saveNote(note: Note) {
         if (note.id == NO_ID) {
@@ -85,7 +86,7 @@ class NotesFirestoreDbRepo : INotesRepo {
             }
     }
 
-    override fun deleteNoteById(docId: String) {
-        db.document(docId).delete()
+    override fun deleteNote(note: Note) {
+        db.document(note.id).delete()
     }
 }

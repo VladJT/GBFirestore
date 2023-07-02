@@ -17,6 +17,7 @@ class NotesInteractor(private val repo: INotesRepo) {
             notes.addAll(it)
             val uniqueDates: MutableSet<LocalDate> = mutableSetOf()
 
+            // отбираем уникальные даты,чтобы сформировать заголовки
             notes.forEach { note ->
                 uniqueDates.add(note.dateTime.toLocalDate())
             }
@@ -42,6 +43,6 @@ class NotesInteractor(private val repo: INotesRepo) {
 
     fun saveNote(note: Note) = repo.saveNote(note)
 
-    fun deleteNote(note: Note) = repo.deleteNoteById(note.id)
+    fun deleteNote(note: Note) = repo.deleteNote(note)
 
 }

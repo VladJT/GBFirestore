@@ -1,18 +1,13 @@
 package jt.projects.gbfirestore.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.gbfirestore.interactors.NotesInteractor
 import jt.projects.gbfirestore.model.Note
-import jt.projects.gbfirestore.utils.LOG_TAG
 import jt.projects.gbfirestore.utils.createMutableSingleEventFlow
 import jt.projects.gbfirestore.utils.launchOrError
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,28 +26,24 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
 
     private var job: Job? = null
 
+    // список заметок
     private val _resultRecycler = MutableStateFlow<List<Note>>(listOf())
     val resultRecycler get() = _resultRecycler.asStateFlow()
 
+    // статус загрузки
     private val _isLoading = MutableStateFlow(true)
     val isLoading get() = _isLoading.asStateFlow()
 
+    // для отображения ошибок
     private val _someError: MutableLiveData<String> = MutableLiveData()
     val someErrorLiveData: LiveData<String>
         get() = _someError
 
+    // для редактирования заметок
     private val _noteIdFlow = createMutableSingleEventFlow<Note>()
     val noteIdFlow get() = _noteIdFlow.asSharedFlow()
 
-    private val liveData: MutableLiveData<List<Note>> = MutableLiveData()
-    val liveDataForViewToObserve: LiveData<List<Note>>
-        get() = liveData
-
-    init {
-
-    }
-
-    // загрузка сразу всех данных из удаленного или локального источника
+    // загрузка всех данных из удаленного или локального источника
     fun loadData() {
         job?.cancel()
         job = viewModelScope.launch {
@@ -60,9 +51,7 @@ class MainViewModel @Inject constructor(private val interactor: NotesInteractor)
                 .onStart { _isLoading.tryEmit(true) }
                 .onEach {
                     _isLoading.tryEmit(true)
-
                     delay(FAKE_DELAY)
-                    liveData.postValue(it)
                     _resultRecycler.tryEmit(it)
                     _isLoading.tryEmit(false)
                 }.collect()
