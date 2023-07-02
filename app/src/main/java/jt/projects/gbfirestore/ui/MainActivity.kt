@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         AndroidInjection.inject(this)
 
-        showGreetings()
+     //   showGreetings()
 
         viewModel.loadData()
         initUi()
